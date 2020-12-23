@@ -2,6 +2,7 @@
 from turtle import Screen
 from paddle import Paddle
 from ball import Ball
+import time
 
 
 screen = Screen()
@@ -13,8 +14,8 @@ screen.tracer(0)
 
 
 # Init objects:
-r_paddle = Paddle((350, 0))
-l_paddle = Paddle((-350, 0))
+r_paddle = Paddle((350, 200))
+l_paddle = Paddle((-350, -200))
 ball = Ball()
 
 
@@ -29,11 +30,19 @@ screen.onkey(l_paddle.down, "s")
 
 is_game_on = True
 while is_game_on:
+    time.sleep(0.1)
     screen.update()
     ball.move()
+
+
     # detect wall collision
-    if ball.ycor() == 295 or ball.ycor() == -295:
+    if ball.ycor() > 280 or ball.ycor() < -280:
         ball.bounce()
+    
+
+    # detect collision with paddle
+    if ball.distance(r_paddle) < 50 and ball.xcor() > 340 or ball.distance(l_paddle) < 50 and ball.xcor() > -340:
+        ball.bounce_x()
 
 
 
