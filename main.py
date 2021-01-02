@@ -2,6 +2,7 @@
 from turtle import Screen
 from paddle import Paddle
 from ball import Ball
+from scoreborard import Scoreboard
 import time
 
 
@@ -17,6 +18,7 @@ screen.tracer(0)
 r_paddle = Paddle((350, 200))
 l_paddle = Paddle((-350, -200))
 ball = Ball(10, 10)
+scoreboard = Scoreboard()
 
 
 
@@ -50,10 +52,25 @@ while is_game_on:
     # detect ball past paddle
     if ball.xcor() > 380:
         ball.reset()
+        scoreboard.l_point()
         ball = Ball(-10, -10)       
     elif ball.xcor() < -380:
         ball.reset()
+        scoreboard.r_point()
         ball = Ball(10, 10)
+
+
+    
+    # game over
+    if scoreboard.r_score == 3:
+        is_game_on = False
+        scoreboard.goto(0, 0)
+        scoreboard.write("The right player won!", align="center", font=("arial", 30, "normal"))
+    elif scoreboard.l_score == 3:
+        is_game_on = False
+        scoreboard.goto(0, 0)
+        scoreboard.write("The left player won!", align="center", font=("arial", 30, "normal"))
+
 
 
 screen.exitonclick()
