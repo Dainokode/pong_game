@@ -16,7 +16,7 @@ screen.tracer(0)
 # Init objects:
 r_paddle = Paddle((350, 200))
 l_paddle = Paddle((-350, -200))
-ball = Ball()
+ball = Ball(10, 10)
 
 
 
@@ -40,10 +40,20 @@ while is_game_on:
         ball.bounce()
     
 
+
     # detect collision with paddle
     if ball.distance(r_paddle) < 50 and ball.xcor() > 340 or ball.distance(l_paddle) < 50 and ball.xcor() > -340:
         ball.bounce_x()
 
+
+    
+    # detect ball past paddle
+    if ball.xcor() > 380:
+        ball.reset()
+        ball = Ball(-10, -10)       
+    elif ball.xcor() < -380:
+        ball.reset()
+        ball = Ball(10, 10)
 
 
 screen.exitonclick()
